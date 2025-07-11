@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encanto Suculento - Buyer Persona</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d5a27 0%, #4a7c59 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '🌿';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            font-size: 150px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+
+        .header::after {
+            content: '🌱';
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            font-size: 120px;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .personas-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 600px;
+        }
+
+        .persona-card {
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .persona-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .persona-principal {
+            background: linear-gradient(135deg, #a8e6cf 0%, #88d8a3 100%);
+            border-right: 3px solid #2d5a27;
+        }
+
+        .persona-secundario {
+            background: linear-gradient(135deg, #ffd3a5 0%, #fd9853 100%);
+        }
+
+        .persona-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #2d5a27, #4a7c59, #2d5a27);
+        }
+
+        .persona-title {
+            font-size: 2.5rem;
+            color: #2d5a27;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .persona-subtitle {
+            font-size: 1.3rem;
+            color: #4a7c59;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .info-section {
+            margin-bottom: 25px;
+        }
+
+        .info-section h3 {
+            color: #2d5a27;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #2d5a27;
+            padding-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-section p, .info-section ul {
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .info-section ul {
+            padding-left: 20px;
+        }
+
+        .info-section li {
+            margin-bottom: 5px;
+        }
+
+        .highlight {
+            background: rgba(45, 90, 39, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #2d5a27;
+            margin: 15px 0;
+        }
+
+        .highlight strong {
+            color: #2d5a27;
+        }
+
+        .icon {
+            font-size: 1.2rem;
+        }
+
+        .toggle-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #2d5a27 0%, #4a7c59 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .detailed-view {
+            display: none;
+            padding: 40px;
+            background: #f8f9fa;
+        }
+
+        .detailed-view.active {
+            display: block;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #2d5a27;
+        }
+
+        .strategy-section {
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .personas-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .persona-card {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .persona-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌿 Encanto Suculento</h1>
+            <p>Buyer Persona</p>
+        </div>
+
+        <div class="personas-grid">
+            <!-- Perfil Principal -->
+            <div class="persona-card persona-principal" onclick="toggleView('principal')">
+                <div class="persona-title">🌱</div>
+                <div class="persona-subtitle">Los Amantes de las Plantas - Perfil Principal</div>
+                
+                <div class="info-section">
+                    <h3><span class="icon">📊</span> Demografía</h3>
+                    <p><strong>Edad:</strong> 25-40 años (Millennials y Centennials)</p>
+                    <p><strong>Ubicación:</strong> Área metropolitana, especialmente Envigado</p>
+                    <p><strong>Nivel socioeconómico:</strong> Estratos 2, 3 y 4</p>
+                </div>
+
+                <div class="info-section">
+                    <h3><span class="icon">💚</span> Características</h3>
+                    <p>Buscan plantas como terapia y familia. Algunos decidieron no tener hijos, convirtiendo plantas en su nueva familia.</p>
+                </div>
+
+                <div class="highlight">
+                    <strong>Punto clave:</strong> Necesitan asesoría personalizada y plantas de calidad, o serán clientes perdidos.
+                </div>
+            </div>
+
+            <!-- Perfil Secundario -->
+            <div class="persona-card persona-secundario" onclick="toggleView('secundario')">
+                <div class="persona-title">🏆</div>
+                <div class="persona-subtitle">El Coleccionista Experimentado - Perfil Secundario</div>
+                
+                <div class="info-section">
+                    <h3><span class="icon">📊</span> Demografía</h3>
+                    <p><strong>Edad:</strong> 30-50 años</p>
+                    <p><strong>Ubicación:</strong> Área metropolitana, especialmente Envigado</p>
+                    <p><strong>Nivel socioeconómico:</strong> Estratos 2, 3 y 4</p>
+                    <p><strong>Experiencia:</strong> Conocimiento avanzado en plantas</p>
+                    <p><strong>Motivación:</strong> Variedades raras y específicas</p>
+                </div>
+
+                <div class="info-section">
+                    <h3><span class="icon">💰</span> Comportamiento</h3>
+                    <p>Dispuestos a pagar más por calidad y rareza. Buscan especies únicas y exclusivas.</p>
+                </div>
+
+                <div class="highlight">
+                    <strong>Oportunidad:</strong> Mercado premium con mayor ticket promedio de venta.
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista Detallada Principal -->
+        <div id="detailed-principal" class="detailed-view">
+            <button class="close-btn" onclick="closeDetailedView()">&times;</button>
+            <h2>🌱 Los Amantes de las Plantas - Perfil Completo</h2>
+            
+            <div class="info-section">
+                <h3><span class="icon">🎯</span> Proceso de Decisión</h3>
+                <ul>
+                    <li>Investigan en la web y ven videos de YouTube y TikTok</li>
+                    <li>Se enamoran de plantas y buscan sus características</li>
+                    <li>Comparan precios entre proveedores</li>
+                    <li>Deciden según costo y asesorías</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h3><span class="icon">📱</span> Canales Preferidos</h3>
+                <ul>
+                    <li>Instagram y WhatsApp (modalidad virtual)</li>
+                    <li>Viveros presenciales y mercados</li>
+                    <li>Eventos especiales</li>
+                    <li>Modalidad híbrida: virtual y presencial</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h3><span class="icon">⚠️</span> Puntos de Dolor</h3>
+                <ul>
+                    <li>Falta de experiencia en cuidado</li>
+                    <li>Espacios limitados en apartamentos</li>
+                    <li>Temor a que las plantas mueran</li>
+                    <li>Dificultad para encontrar variedades únicas</li>
+                </ul>
+            </div>
+
+            <div class="strategy-section">
+                <h3>🎯 Estrategia de Marketing</h3>
+                <p>"Transforma tu hogar en un oasis verde con suculentas resistentes y hermosas. Perfectas para principiantes y espacios urbanos. Asesoría incluida."</p>
+                
+                <div class="info-section">
+                    <h3><span class="icon">📈</span> Propuesta de Valor</h3>
+                    <ul>
+                        <li>Plantas adaptadas al clima de Medellín</li>
+                        <li>Asesoría personalizada para principiantes</li>
+                        <li>Variedad constante de especies</li>
+                        <li>Precios competitivos</li>
+                        <li>Servicio local confiable</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vista Detallada Secundaria -->
+        <div id="detailed-secundario" class="detailed-view">
+            <button class="close-btn" onclick="closeDetailedView()">&times;</button>
+            <h2>🏆 El Coleccionista Experimentado - Perfil Completo</h2>
+            
+            <div class="info-section">
+                <h3><span class="icon">🎯</span> Características Específicas</h3>
+                <ul>
+                    <li>Conocimiento avanzado en plantas</li>
+                    <li>Busca variedades raras y exclusivas</li>
+                    <li>Invierte en plantas de alta calidad</li>
+                    <li>Valora la expertise del vendedor</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h3><span class="icon">💰</span> Comportamiento de Compra</h3>
+                <ul>
+                    <li>Precio no es la principal consideración</li>
+                    <li>Busca proveedores especializados</li>
+                    <li>Compra con menor frecuencia pero mayor valor</li>
+                    <li>Dispuesto a viajar por plantas únicas</li>
+                </ul>
+            </div>
+
+            <div class="strategy-section">
+                <h3>🎯 Estrategia Específica</h3>
+                <p><strong>Enfoque:</strong> Posicionarse como experto en variedades raras y ofrecer servicio premium con conocimiento técnico especializado.</p>
+                
+                <div class="info-section">
+                    <h3><span class="icon">📈</span> Tácticas Recomendadas</h3>
+                    <ul>
+                        <li>Catálogo exclusivo de variedades raras</li>
+                        <li>Contenido técnico especializado</li>
+                        <li>Programa de pre-órdenes para especies únicas</li>
+                        <li>Asesoría técnica avanzada</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="toggle-btn" onclick="toggleSummary()">
+        📊 Ver Resumen
+    </button>
+
+    <script>
+        function toggleView(type) {
+            const detailedView = document.getElementById('detailed-' + type);
+            const grid = document.querySelector('.personas-grid');
+            
+            if (detailedView.classList.contains('active')) {
+                closeDetailedView();
+            } else {
+                closeAllDetailedViews();
+                detailedView.classList.add('active');
+                grid.style.display = 'none';
+            }
+        }
+
+        function closeDetailedView() {
+            const grid = document.querySelector('.personas-grid');
+            closeAllDetailedViews();
+            grid.style.display = 'grid';
+        }
+
+        function closeAllDetailedViews() {
+            const detailedViews = document.querySelectorAll('.detailed-view');
+            detailedViews.forEach(view => {
+                view.classList.remove('active');
+            });
+        }
+
+        function toggleSummary() {
+            const isDetailedOpen = document.querySelector('.detailed-view.active');
+            if (isDetailedOpen) {
+                closeDetailedView();
+            } else {
+                // Mostrar resumen rápido
+                alert('💡 Resumen Clave:\n\n' +
+                      '🌱 Perfil Principal: Millennials/Centennials que buscan plantas como terapia\n' +
+                      '🏆 Perfil Secundario: Coleccionistas experimentados\n' +
+                      '📍 Ubicación: Envigado y área metropolitana\n' +
+                      '💰 Estratos: 2, 3 y 4\n' +
+                      '📱 Canales: Instagram, WhatsApp, viveros presenciales\n' +
+                      '⚠️ Punto crítico: Asesoría personalizada es clave para no perder clientes');
+            }
+        }
+
+        // Animación de entrada
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.persona-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(30px)';
+                    card.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
